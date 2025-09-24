@@ -46,9 +46,19 @@ if positions:
     # --- Plot trajectory ---
     xs, ys = zip(*[(x, y) for _, x, y in positions])
     plt.figure(figsize=(6,6))
-    plt.plot(xs, ys, 'ro-', markersize=3)
+
+    # Plot full trajectory
+    plt.plot(xs, ys, 'ro-', markersize=3, label="Trajectory")
+
+    # Mark start point (first click)
+    plt.scatter(xs[0], ys[0], color="green", s=100, marker="o", label="Start")
+
+    # Mark end point (last click)
+    plt.scatter(xs[-1], ys[-1], color="blue", s=100, marker="o", label="End")
+
     plt.gca().invert_yaxis()
     plt.title("🐛 Worm Head Trajectory (Manual Annotation)")
     plt.xlabel("X (pixels)")
     plt.ylabel("Y (pixels)")
+    plt.legend()
     plt.show()
