@@ -50,6 +50,24 @@ if positions:
     # Plot full trajectory
     plt.plot(xs, ys, 'ro-', markersize=3, label="Trajectory")
 
+    # Add arrows at the midpoint of each line segment
+    for i in range(len(xs) - 1):
+        # Midpoint of line segment
+        mx = (xs[i] + xs[i+1]) / 2
+        my = (ys[i] + ys[i+1]) / 2
+
+        dx = xs[i+1] - xs[i]
+        dy = ys[i+1] - ys[i]
+
+        plt.annotate("",
+                     xy=(mx + dx*0.001, my + dy*0.001),  # tiny offset for direction
+                     xytext=(mx, my),
+                     arrowprops=dict(arrowstyle="->", color="black", lw=1))
+
+    # Add numbers for each clicked point
+    for idx, (x, y) in enumerate(zip(xs, ys), start=1):
+        plt.text(x + 5, y - 5, str(idx), fontsize=8, color="darkred")
+
     # Mark start point (first click)
     plt.scatter(xs[0], ys[0], color="green", s=100, marker="o", label="Start")
 
