@@ -1,68 +1,86 @@
-🐛 Worm Tracker – Manual Annotation Tool
+# 🐛 Worm Head Trajectory Annotator
 
-Because sometimes… the best AI is still your own eyes + clicks 👀✨
+A manual annotation tool for tracking worm head positions frame-by-frame in a video, with trajectory visualization and CSV export.
 
-Track the movement of a worm’s head frame-by-frame and visualize its journey like a boss 📈
+---
 
-🎯 What This Does
+## Overview
 
-This script lets you:
+This script lets you click on a worm's head in each video frame to record its position. Once all frames are annotated, it saves the coordinates to a CSV file and plots the full trajectory with directional arrows.
 
-🎥 Load a video (worm_video.mp4)
-🖱️ Click on the worm’s head in each frame
-📍 Record coordinates (X, Y) for every frame
-💾 Save data into a CSV file
-📊 Generate a beautiful trajectory plot with:
-Direction arrows ➡️
-Step numbers 🔢
-Start 🟢 and End 🔵 markers
+---
 
-⚙️ How It Works
-The video opens frame by frame
-You click on the worm’s head
-Press any key to move to the next frame
-Repeat until done (or press ESC to exit early)
-Boom 💥 — data + visualization generated
+## Requirements
 
-🧠 Output Files
-📄 worm_head_positions.csv
-Frame	X	Y
-0	123	456
-1	130	460
-📊 Trajectory Plot
-Red line → movement path
-Arrows → direction
-Numbers → click order
-Green dot → start
-Blue dot → end
+Install the dependencies with:
 
-🚀 How to Run
+```bash
 pip install opencv-python matplotlib pandas
-python your_script_name.py
+```
 
-🎮 Controls
-Action	Key
-Click worm head	Left Mouse Click 🖱️
-Next frame	Any key ⌨️
-Exit early	ESC ❌
+| Package | Purpose |
+|---|---|
+| `opencv-python` | Video reading and frame display |
+| `matplotlib` | Trajectory plotting |
+| `pandas` | CSV export |
 
-😎 Why This is Cool
-No complex ML model needed 🤖❌
-Full control over tracking ✔️
-Perfect for:
-Biology experiments 🧬
-Motion analysis 🏃
-Data visualization practice 📊
-💡 Future Upgrades (if you feel like leveling up)
-🔁 Auto-tracking using OpenCV
-🎯 Heatmaps of movement
-⏱️ Speed & acceleration analysis
-🧠 Train a model using your manual data
+---
 
-⚠️ Pro Tip
+## Usage
 
-Be consistent with your clicks — accuracy = better trajectory 📈
+1. **Place your video** in the same directory as the script and name it `worm_video.mp4` (or update the `video_path` variable).
 
-🐛 Final Thought
+2. **Run the script:**
 
-“Even a worm leaves a path… you just made it visible.”
+```bash
+python worm_annotator.py
+```
+
+3. **Annotate each frame:**
+   - A window titled **"Annotate Worm Head"** will open showing the first frame.
+   - **Left-click** on the worm's head to record its position.
+   - Press **any key** to advance to the next frame.
+   - Press **ESC** to stop early and save progress.
+
+4. After annotation, the script will:
+   - Save positions to `worm_head_positions.csv`
+   - Display a trajectory plot
+
+---
+
+## Output
+
+### `worm_head_positions.csv`
+
+| Column | Description |
+|---|---|
+| `Frame` | Frame index (0-based) |
+| `X` | Horizontal pixel coordinate of the click |
+| `Y` | Vertical pixel coordinate of the click |
+
+### Trajectory Plot
+
+- 🔴 **Red dots & lines** — full trajectory path
+- 🟢 **Green dot** — start position (first click)
+- 🔵 **Blue dot** — end position (last click)
+- **Arrows** — direction of movement between frames
+- **Numbers** — click order label at each point
+
+---
+
+## Controls
+
+| Input | Action |
+|---|---|
+| Left Click | Record worm head position |
+| Any Key | Advance to next frame |
+| ESC | Stop annotation and save |
+
+---
+
+## Notes
+
+- Each frame waits indefinitely (`cv2.waitKey(0)`) until a key is pressed — you don't need to click and press a key simultaneously; just click first, then press any key.
+- If you press a key **without clicking**, that frame will have no recorded position.
+- The Y-axis is inverted in the plot to match image coordinate conventions (origin at top-left).
+- Designed for single-worm videos; for multi-worm tracking, consider extending with multi-point annotation.
